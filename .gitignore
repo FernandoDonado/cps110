@@ -1,0 +1,15 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# VSCode
+.vscode
+
+# In class examples
+*_inclass*
+
+# Misc
+
+Thumbs.db
+
