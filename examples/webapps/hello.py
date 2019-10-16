@@ -1,11 +1,11 @@
 # pylint: disable=E1135,E1136
 
-import bottle
+from flask import Flask, request
 import datetime
 
+app = Flask(__name__)
 
-
-@bottle.route('/')
+@app.route('/')
 def home():
     datestr = datetime.datetime.now()
     return f"""<html><body>Welcome!
@@ -13,18 +13,18 @@ def home():
     <a href="/page2">Click here</a> for page 2.
     </body></html>"""
 
-@bottle.route('/page2')
+@app.route('/page2')
 def page2():
     return """<html><body>Here is page 2.</body></html>"""
 
-@bottle.route('/hello')
+@app.route('/hello')
 def hello():
     name = 'World'
     age = 15
-    if 'name' in bottle.request.params:
-        name = bottle.request.params['name']
-    if 'age' in bottle.request.params:
-        age = bottle.request.params['age']
+    if 'name' in request.args:
+        name = request.args['name']
+    if 'age' in request.args:
+        age = request.args['age']
 
     return f"""<html><body>
         <h1>Hello, {name}!</h1>
@@ -32,5 +32,5 @@ def hello():
 
 # Launch the BottlePy dev server
 if __name__ == "__main__":
-    bottle.run(host='localhost', debug=True)
+    app.run(host='localhost', debug=True)
 
