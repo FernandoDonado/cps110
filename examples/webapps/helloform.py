@@ -1,20 +1,22 @@
 # pylint: disable=E1135,E1136
 
-import bottle
+from flask import Flask, request
 import datetime
 
-@bottle.route('/')
+app = Flask(__name__)
+
+@app.route('/')
 def home():
     return HTML_FORM
 
-@bottle.route('/hello')
+@app.route('/hello')
 def hello():
     username = 'World'
     age = 15
-    if 'username' in bottle.request.params:
-        username = bottle.request.params['username']
-    if 'age' in bottle.request.params:
-        age = bottle.request.params['age']
+    if 'username' in request.args:
+        username = request.args['username']
+    if 'age' in request.args:
+        age = request.args['age']
 
     return """<html><body>
         <h1>Hello, {0}!</h1>
@@ -36,5 +38,5 @@ HTML_FORM = """
 
 # Launch the BottlePy dev server
 if __name__ == "__main__":
-    bottle.run(host='localhost', debug=True)
+    app.run(host='localhost', debug=True)
 
