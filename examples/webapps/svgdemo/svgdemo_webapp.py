@@ -1,13 +1,18 @@
 
-import bottle
+from flask import Flask
 import random
 import traceback
+import os.path
 
 WIDTH=700
 HEIGHT=700
 
+path = os.path.abspath(__file__)
+dir_path = os.path.dirname(path)
 
-@bottle.route('/')
+app = Flask(__name__, static_url_path=dir_path)
+
+@app.route('/')
 def welcome():  
     svgdata = []
     svgdata.append("<rect x='0' y='0' width='{}' height='{}' fill='black' />".format(WIDTH, HEIGHT))
@@ -24,11 +29,10 @@ def welcome():
     svgstring = '\n'.join(svgdata)
     return HTML_PAGE.format(WIDTH, HEIGHT, svgstring)
 
-@bottle.route('/<filename:path>')
+@app.route('/<filename:path>')
 def send_static(filename):
     """Serve up images and sounds."""
-    return bottle.static_file(filename, root='.')
-
+    return app.send_static_file(filename)
 
 HTML_PAGE = """
 <!DOCTYPE html>
@@ -44,7 +48,6 @@ HTML_PAGE = """
 """
 
 if __name__ == '__main__':
-
-    # Launch the BottlePy dev server
-    bottle.run(host="localhost", port=8080, debug=True)
+    # Launch the Flask dev server
+    app.run(host="localhost", port=8080, debug=True)
     
