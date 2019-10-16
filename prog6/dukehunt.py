@@ -3,25 +3,26 @@
 # Next line disables pylint warnings about bottle.request.params:
 # pylint: disable=E1135,E1136
 
-import bottle
+from flask import Flask
+import os.path
+path = os.path.abspath(__file__)
+dir_path = os.path.dirname(path)
 
+app = Flask(__name__, static_url_path=dir_path)
         
-@bottle.route('/<filename:path>')
+@app.route('/<filename:path>')
 def send_static(filename):
     if filename.endswith('.py'):
         return "You may not have that file."
 
-    import os.path
-    path = os.path.abspath(__file__)
-    dir_path = os.path.dirname(path)    
-    return bottle.static_file(filename, root=dir_path)
+    return app.send_static_file(filename)
 
-@bottle.route('/dukehunt')
+@app.route('/dukehunt')
 def index():
     """Home page."""
     return TITLE_HTML
 
-@bottle.route('/play')
+@app.route('/play')
 def play():
     """Gameplay page request handler."""
     return GAME_HTML
@@ -146,9 +147,5 @@ if __name__ == "__main__":
 
     threading.Thread(target=wait_n_browse, daemon=True).start()
     
-    # Launch the BottlePy dev server 
-    import wsgiref.simple_server
-    wsgiref.simple_server.WSGIServer.allow_reuse_address = 0
-
-    # Launch the BottlePy dev server on the main thread (runs until Ctrl-Brk)
-    bottle.run(host="localhost", port=8080, debug=True)
+    # Launch the flask dev server on the main thread (runs until Ctrl-Brk)
+    app.run(host="localhost", port=8080, debug=True)
