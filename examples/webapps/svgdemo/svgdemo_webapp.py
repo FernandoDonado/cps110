@@ -31,7 +31,7 @@ def welcome():
 @app.route('/<path:filename>')
 def send_static(filename):
     """Serve up images and sounds."""
-    return send_from_directory(os.path.join(dir_path), filename)
+    return send_from_directory(dir_path, filename)
 
 HTML_PAGE = """
 <!DOCTYPE html>
