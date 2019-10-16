@@ -3,19 +3,19 @@
 # Next line disables pylint warnings about bottle.request.params:
 # pylint: disable=E1135,E1136
 
-from flask import Flask
+from flask import Flask, send_from_directory
 import os.path
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 
-app = Flask(__name__, static_url_path=dir_path)
+app = Flask(__name__)
         
-@app.route('/<filename:path>')
+@app.route('/<path:filename>')
 def send_static(filename):
     if filename.endswith('.py'):
         return "You may not have that file."
 
-    return app.send_static_file(filename)
+    return send_from_directory(dir_path, filename)
 
 @app.route('/dukehunt')
 def index():
