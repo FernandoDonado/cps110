@@ -1,5 +1,4 @@
-
-from flask import Flask
+from flask import Flask, send_from_directory
 import random
 import traceback
 import os.path
@@ -10,7 +9,7 @@ HEIGHT=700
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 
-app = Flask(__name__, static_url_path=dir_path)
+app = Flask(__name__)
 
 @app.route('/')
 def welcome():  
@@ -29,20 +28,18 @@ def welcome():
     svgstring = '\n'.join(svgdata)
     return HTML_PAGE.format(WIDTH, HEIGHT, svgstring)
 
-@app.route('/<filename:path>')
+@app.route('/<path:filename>')
 def send_static(filename):
     """Serve up images and sounds."""
-    return app.send_static_file(filename)
+    return send_from_directory(os.path.join(dir_path), filename)
 
 HTML_PAGE = """
 <!DOCTYPE html>
 <html>
 <body>
-
 <svg width="{0}" height="{1}">
   {2}
 </svg>
-
 </body>
 </html>
 """
