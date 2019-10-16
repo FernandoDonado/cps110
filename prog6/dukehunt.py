@@ -136,16 +136,4 @@ GAME_HTML = """\
 
 # Boilerplate bootstrapping logic for running as a standalone program
 if __name__ == "__main__":
-    import threading
-    import time
-    import webbrowser
-    
-    # Launch a background thread that will spawn a webbrowser in 1 second from thread start
-    def wait_n_browse():
-        time.sleep(1.0) # Race condition/hack, but likely to work in most cases...
-        webbrowser.open("http://localhost:8080/dukehunt")
-
-    threading.Thread(target=wait_n_browse, daemon=True).start()
-    
-    # Launch the flask dev server on the main thread (runs until Ctrl-Brk)
     app.run(host="localhost", port=8080, debug=True)
