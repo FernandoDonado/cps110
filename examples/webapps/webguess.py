@@ -1,8 +1,10 @@
 # pylint: disable=E1135,E1136
 
-import bottle
+from flask import Flask, request
 import random
 import traceback
+
+app = Flask(__name__)
 
 def pickSecretNumber():
     """Returns random number between 1 and 10"""    
@@ -18,16 +20,16 @@ def checkGuess(guess, secretNum):
         return "You got it!!"
     
 
-@bottle.route("/")
+@app.route("/")
 def main():
     global secret
     secret = pickSecretNumber()
     return GUESS_FORM.format('')
 
-@bottle.route("/guess")
+@app.route("/guess")
 def guess():
     try:
-        theGuess = int(bottle.request.params['guess'])
+        theGuess = int(request.args['guess'])
         result = checkGuess(theGuess, secret)
     except ValueError:
         traceback.print_exc()
@@ -47,5 +49,5 @@ GUESS_FORM = f.read()
 f.close()
 
 if __name__ == "__main__":
-    bottle.run(host='localhost', debug=True)
+    app.run(host='localhost', debug=True)
     
