@@ -24,7 +24,7 @@ def checkGuess(guess, secretNum):
 def main():
     global secret
     secret = pickSecretNumber()
-    return GUESS_FORM.format('')
+    return GUESS_PAGE.format('')
 
 @app.route("/guess")
 def guess():
@@ -33,20 +33,20 @@ def guess():
         result = checkGuess(theGuess, secret)
     except ValueError:
         traceback.print_exc()
-        return GUESS_FORM.format("Please enter a valid number")
+        return GUESS_PAGE.format("Please enter a valid number")
     except Exception as e:
         traceback.print_exc()
-        return GUESS_FORM.format("Oops! Something weird happened. Please contact the webmaster for help.")
+        return GUESS_PAGE.format("Oops! Something weird happened. Please contact the webmaster for help.")
 
     if theGuess == secret:
         return """You got it!"""
     else:
-        return GUESS_FORM.format(result)
+        return GUESS_PAGE.format(result)
     
+# Read guess page from file
+with open('guessform.html','r') as f:
+    GUESS_PAGE = f.read()
 
-f = open('guessform.html','r')
-GUESS_FORM = f.read()
-f.close()
 
 if __name__ == "__main__":
     app.run(host='localhost', debug=True)
