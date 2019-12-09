@@ -9,7 +9,15 @@ path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 
 app = Flask(__name__)
-        
+
+VEGETATION = [("bush.gif", 103, 89), ("flower.gif", 34, 34), ("grass.gif", 51, 53), ("hare.gif", 33, 34), ("rock.gif", 24, 38), ("tree.gif", 83, 87)]
+DUKE = ("duke.gif", 24, 38)
+DUKECUE = ("dukecue.gif", 56, 56)
+DECOYCUE = ("decoycue.gif", 56, 56)
+EXPLOSION = ("explosion.gif", 71, 100)
+TOMBSTONE = ("tombstone.gif", 59, 83)
+FIRE = ("fire.gif", 30, 60)
+
 @app.route('/<path:filename>')
 def send_static(filename):
     if filename.endswith('.py'):
