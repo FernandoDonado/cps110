@@ -1,9 +1,9 @@
 import json
 
-fireFile = open('fires.json')
+fire_file = open('fires.json')
 
-fileData = fireFile.read()
-records = json.loads(fileData)
+file_data = fire_file.read()
+records = json.loads(file_data)
 
 for rec in records:
     print(rec['street'], rec['station'])
